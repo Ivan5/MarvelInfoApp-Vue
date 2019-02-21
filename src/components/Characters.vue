@@ -1,8 +1,9 @@
 <template>
   <div>
-    <h3>Hello this is Character vue</h3>
     <ul>
-      <li v-for="character in characters" :key="character">{{ character.name}}</li>
+      <li v-for="character in characters" :key="character.id">
+        <router-link :to="{name:'character', params:{ id: character.id}}">{{ character.name}}</router-link>
+      </li>
     </ul>
   </div>
 </template>
