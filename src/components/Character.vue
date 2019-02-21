@@ -1,15 +1,17 @@
 <template>
   <div>
-    <h3>Hello this is Character vue</h3>
-    <p>{{ this.$route.params.id}}</p>
-
-    <ul>
-      <li v-for="char in character">
-        {{char.name}}
-        {{char.description}}
-      </li>
-    </ul>
-    <img :src="url" alt>
+    <div class="flex-container">
+      <div class="flex" v-for="char in character">
+        <h3>{{ char.name }}</h3>
+        <p>{{ char.description }}</p>
+      </div>
+      <div class="flex2">
+        <img :src="url" alt class="char-img">
+      </div>
+    </div>
+    <router-link to="/">
+      <button type="button" class="btn-back">Back</button>
+    </router-link>
   </div>
 </template>
 
@@ -43,4 +45,34 @@ export default {
 </script>
 
 <style>
+.flex-container {
+  margin: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.flex {
+  flex: 50%;
+  text-align: right;
+}
+
+.flex2 {
+  flex: 50%;
+}
+
+.char-img {
+  width: 50%;
+  border-radius: 10px;
+}
+
+.btn-back {
+  width: 200px;
+  padding: 15px;
+  border-radius: 25px;
+  background-color: transparent;
+  font-size: 20px;
+  margin-bottom: 100px;
+  cursor: pointer;
+}
 </style>
