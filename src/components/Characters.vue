@@ -1,7 +1,7 @@
 <template>
   <div>
     <ul>
-      <li v-for="character in characters" :key="character.id">
+      <li v-for="character in characters">
         <router-link :to="{name:'character', params:{ id: character.id}}">{{ character.name}}</router-link>
       </li>
     </ul>
@@ -9,32 +9,19 @@
 </template>
 
 <script>
-import { public_key, secret_key } from "../marvel";
-import axios from "axios";
-
+import { mapState } from "vuex";
 export default {
   name: "Characters",
-  data() {
-    return {
-      characters: []
-    };
-  },
   mounted() {
-    this.getCharacters();
+    this.$store.dispatch("getCharacters");
+
+    console.log(this.characters);
   },
-  methods: {
-    getCharacters() {
-      axios
-        .get(
-          `http://gateway.marvel.com/v1/public/characters?apikey=${public_key}`
-        )
-        .then(result => {
-          result.data.data.results.map(item => {
-            this.characters.push(item);
-          });
-        })
-        .catch(err => console.log(err));
-    }
+  methods: {},
+  computed: {
+    ...mapState({
+      characters: state => state.characters
+    })
   }
 };
 </script>

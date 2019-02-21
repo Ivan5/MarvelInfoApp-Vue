@@ -4,7 +4,7 @@
     <p>{{ this.$route.params.id}}</p>
 
     <ul>
-      <li v-for="char in character" :key="char.id">
+      <li v-for="char in character">
         {{char.name}}
         {{char.description}}
       </li>
@@ -14,36 +14,29 @@
 </template>
 
 <script>
-import { public_key } from "../marvel";
-import axios from "axios";
+import { mapState } from "vuex";
 
 export default {
   name: "Character",
   data() {
     return {
-      character: [],
       url: "",
       size: "standard_large.jpg"
     };
   },
+  computed: {
+    ...mapState({
+      character: state => state.character,
+      preUrl: state => state.url
+    })
+  },
   mounted() {
-    this.getCharacter();
+    this.$store.dispatch("getCharacter", this.$route.params.id);
+    this.getImage();
   },
   methods: {
-    getCharacter() {
-      let characterID = this.$route.params.id;
-      axios
-        .get(
-          `http://gateway.marvel.com/v1/public/characters/${characterID}?apikey=${public_key}`
-        )
-        .then(result => {
-          result.data.data.results.map(item => {
-            this.character.push(item);
-            this.url = `${item.thumbnail.path}/${this.size}`;
-            console.log(this.url);
-          });
-        })
-        .catch(err => console.log(err));
+    getImage() {
+      this.url = `${this.preUrl}${this.size}`;
     }
   }
 };
